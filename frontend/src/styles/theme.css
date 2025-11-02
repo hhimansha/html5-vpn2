@@ -1,0 +1,129 @@
+/* Apply theme based on configuration */
+:root {
+  --primary-color: #4285f4;
+  --secondary-color: #34a853;
+  --success-color: #34a853;
+  --warning-color: #fbbc05;
+  --danger-color: #ea4335;
+  --info-color: #4285f4;
+  --background-color: #fafafa;
+  --text-color: #3c4043;
+}
+
+/* Semantic UI Component Overrides */
+.ui.button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.ui.button:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 80%, black) !important;
+}
+
+.ui.segment {
+  background: var(--background-color) !important;
+  color: var(--text-color) !important;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 10%, transparent) !important;
+}
+
+.ui.label {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.ui.label.ribbon {
+  background-color: var(--secondary-color) !important;
+}
+
+.ui.statistic .value {
+  color: var(--primary-color) !important;
+}
+
+.ui.statistic .label {
+  color: var(--text-color) !important;
+}
+
+.ui.dimmer {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Loader */
+.ui.loader:before {
+  border-color: color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
+}
+
+.ui.loader:after {
+  border-color: var(--primary-color) transparent transparent !important;
+}
+
+/* Color variants */
+.ui.label.orange,
+.ui.button.orange {
+  background-color: var(--warning-color) !important;
+}
+
+.ui.label.green,
+.ui.button.green {
+  background-color: var(--success-color) !important;
+}
+
+.ui.label.red,
+.ui.button.red {
+  background-color: var(--danger-color) !important;
+}
+
+.ui.label.teal,
+.ui.button.teal {
+  background-color: var(--info-color) !important;
+}
+
+.ui.label.grey,
+.ui.button.grey {
+  background-color: var(--secondary-color) !important;
+}
+
+/* Statistic color variants */
+.ui.statistic.green .value {
+  color: var(--success-color) !important;
+}
+
+.ui.statistic.yellow .value {
+  color: var(--warning-color) !important;
+}
+
+.ui.statistic.red .value {
+  color: var(--danger-color) !important;
+}
+
+.ui.statistic.blue .value {
+  color: var(--primary-color) !important;
+}
+
+.ui.statistic.teal .value {
+  color: var(--info-color) !important;
+}
+
+.ui.statistic.orange .value {
+  color: var(--warning-color) !important;
+}
+
+/* Confirm modal */
+.ui.modal > .header {
+  background: var(--primary-color) !important;
+  color: white !important;
+}
+
+.ui.modal > .content {
+  background: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Input fields */
+.ui.input > input {
+  border: 1px solid color-mix(in srgb, var(--primary-color) 30%, transparent) !important;
+}
+
+.ui.input > input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
+}

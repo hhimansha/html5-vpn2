@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import FlexLayout from "flexlayout-react";
+import * as FlexLayout from "flexlayout-react";
 import {defaultLayout} from "./defaultLayout";
 
 const LayoutContext = React.createContext([{}, () => {

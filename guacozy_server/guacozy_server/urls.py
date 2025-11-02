@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 from users.views import CustomLoginView
+from backend.views import index
 
-# Hide "View Site" link, because admin will be often used in IFRAME
 admin.site.site_url = None
 
 urlpatterns = [
@@ -29,5 +31,12 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/login/', CustomLoginView.as_view(), name='login'),
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
-    path('', RedirectView.as_view(url='/cozy/')),
+    path('', index, name='index'),
+    # Serve manifest.json and favicon.ico from root
+    path('manifest.json', RedirectView.as_view(url='/static/manifest.json')),
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
 ]
+
+# Serve static files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

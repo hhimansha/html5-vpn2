@@ -1,0 +1,868 @@
+/* ========================================
+   MODERN MINIMAL DARK THEME FOR DJANGO ADMIN
+   Overrides Grappelli styles with high specificity
+   ======================================== */
+
+/* --- ROOT VARIABLES --- */
+:root {
+    /* Dark Background Colors */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1a1a1a;
+    --bg-hover: #222222;
+    --bg-input: #1e1e1e;
+    
+    /* Text Colors */
+    --text-primary: #e0e0e0;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --text-inverse: #0a0a0a;
+    
+    /* Primary Accent - Single Color System */
+    --accent-primary: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-light: rgba(59, 130, 246, 0.1);
+    
+    /* Status Colors */
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    
+    /* Borders */
+    --border-primary: #2a2a2a;
+    --border-secondary: #333333;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+    
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+}
+
+/* ========================================
+   GLOBAL OVERRIDES
+   ======================================== */
+
+body,
+body * {
+    transition: none !important;
+    animation: none !important;
+}
+
+body {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif !important;
+}
+
+/* Remove all animations and transitions */
+*,
+*::before,
+*::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-secondary);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+
+header#grp-header,
+#grp-header {
+    background: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+#grp-navigation {
+    background: var(--bg-secondary) !important;
+}
+
+#grp-navigation a {
+    color: var(--text-secondary) !important;
+}
+
+#grp-navigation a:hover {
+    color: var(--accent-primary) !important;
+}
+
+h1#grp-admin-title,
+#grp-admin-title,
+#grp-header h1,
+#site-name a {
+    color: var(--text-primary) !important;
+}
+
+#grp-user-tools {
+    border-left: 1px solid var(--border-primary) !important;
+}
+
+#grp-user-tools > li {
+    border-left: 1px solid var(--border-primary) !important;
+    border-right: 1px solid var(--border-secondary) !important;
+}
+
+#grp-user-tools a,
+#grp-user-tools button {
+    color: var(--text-secondary) !important;
+}
+
+#grp-user-tools a:hover,
+#grp-user-tools button:hover {
+    color: var(--accent-primary) !important;
+}
+
+/* ========================================
+   BREADCRUMBS
+   ======================================== */
+
+#grp-context-navigation,
+#grp-breadcrumbs {
+    background: var(--bg-tertiary) !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+}
+
+#grp-breadcrumbs a {
+    color: var(--accent-primary) !important;
+}
+
+#grp-breadcrumbs a:hover {
+    color: var(--accent-hover) !important;
+}
+
+/* ========================================
+   CONTENT AREA
+   ======================================== */
+
+#grp-content,
+#grp-content-container {
+    background: var(--bg-primary) !important;
+}
+
+/* ========================================
+   MODULES & CARDS
+   ======================================== */
+
+.grp-module,
+.module,
+.grp-group {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.grp-module h2,
+.grp-module h3,
+.grp-module h4,
+.module h2,
+.module h3,
+.grp-group > h2 {
+    background: var(--bg-tertiary) !important;
+    background-image: none !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    text-shadow: none !important;
+}
+
+/* ========================================
+   FORMS & INPUTS
+   ======================================== */
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+textarea,
+select,
+.vTextField,
+.vURLField,
+.vIntegerField {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-secondary) !important;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    background: var(--bg-tertiary) !important;
+    border-color: var(--accent-primary) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--accent-light) !important;
+}
+
+/* Labels */
+label,
+.grp-row label,
+.form-row label {
+    color: var(--text-secondary) !important;
+}
+
+/* Help Text */
+.grp-help,
+.help,
+.helptext,
+p.grp-help {
+    color: var(--text-muted) !important;
+}
+
+/* Readonly Fields */
+div.grp-readonly {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Select Dropdowns */
+select {
+    background-color: var(--bg-input) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    padding-right: 2.5rem !important;
+}
+
+/* Checkboxes and Radio Buttons */
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--accent-primary) !important;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+button,
+input[type="submit"],
+input[type="button"],
+.grp-button,
+.button,
+a.grp-button,
+a.button {
+    background: var(--accent-primary) !important;
+    background-image: none !important;
+    color: white !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: var(--shadow-sm) !important;
+    font-weight: 500 !important;
+}
+
+button:hover,
+input[type="submit"]:hover,
+.grp-button:hover,
+.button:hover {
+    background: var(--accent-hover) !important;
+    transform: none !important;
+}
+
+/* Default/Primary Button */
+input[type="submit"].default,
+.grp-button.grp-default {
+    background: var(--accent-primary) !important;
+}
+
+/* Delete Button */
+.deletelink,
+.grp-delete-link,
+a.deletelink,
+.grp-button.grp-delete-link {
+    background: var(--error) !important;
+}
+
+.deletelink:hover,
+.grp-delete-link:hover {
+    background: #dc2626 !important;
+}
+
+/* Cancel/Reset Buttons */
+.grp-button.grp-cancel-link,
+.grp-button.grp-reset-link {
+    background: var(--bg-hover) !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-secondary) !important;
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+
+.grp-table,
+table,
+table.grp-table {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+}
+
+.grp-table thead th,
+table thead th,
+table.grp-table thead th {
+    background: var(--bg-tertiary) !important;
+    background-image: none !important;
+    color: var(--text-secondary) !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    text-shadow: none !important;
+}
+
+.grp-table tbody tr,
+table tbody tr,
+table.grp-table tbody tr {
+    background: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+}
+
+.grp-table tbody tr:hover,
+table tbody tr:hover,
+table.grp-table tbody tr:hover {
+    background: var(--bg-hover) !important;
+}
+
+.grp-table tbody tr.grp-row-even,
+.grp-table tbody tr.grp-alt,
+table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.grp-table tbody tr.grp-row-even:hover,
+table tbody tr:nth-child(even):hover {
+    background: var(--bg-hover) !important;
+}
+
+.grp-table td,
+.grp-table th,
+table td,
+table th {
+    color: var(--text-primary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+/* Selected Rows */
+.grp-table tbody tr.grp-selected,
+table tbody tr.grp-selected {
+    background: var(--accent-light) !important;
+}
+
+/* ========================================
+   LINKS
+   ======================================== */
+
+a {
+    color: var(--accent-primary) !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: var(--accent-hover) !important;
+}
+
+a::after {
+    display: none !important;
+}
+
+/* ========================================
+   MESSAGES & ALERTS
+   ======================================== */
+
+.grp-messagelist li,
+.messagelist li,
+ul.messagelist li {
+    background: var(--bg-tertiary) !important;
+    border-left: 3px solid var(--accent-primary) !important;
+    border-radius: var(--radius-sm) !important;
+    color: var(--text-primary) !important;
+}
+
+.grp-messagelist li.success,
+.messagelist li.success,
+.grp-messagelist li.grp-success {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border-left-color: var(--success) !important;
+    color: var(--success) !important;
+}
+
+.grp-messagelist li.warning,
+.messagelist li.warning,
+.grp-messagelist li.grp-warning {
+    background: rgba(245, 158, 11, 0.1) !important;
+    border-left-color: var(--warning) !important;
+    color: var(--warning) !important;
+}
+
+.grp-messagelist li.error,
+.messagelist li.error,
+.grp-messagelist li.grp-error {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-left-color: var(--error) !important;
+    color: var(--error) !important;
+}
+
+/* Error Lists */
+.errorlist,
+ul.errorlist,
+.errorlist li {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-left: 2px solid var(--error) !important;
+    color: var(--error) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+p.errornote {
+    background: var(--error) !important;
+    color: white !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+/* ========================================
+   PAGINATION
+   ======================================== */
+
+.grp-pagination,
+.pagination {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.grp-pagination a,
+.pagination a,
+.grp-pagination ul li a {
+    background: var(--bg-tertiary) !important;
+    background-image: none !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-secondary) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.grp-pagination a:hover,
+.pagination a:hover {
+    background: var(--bg-hover) !important;
+    color: var(--accent-primary) !important;
+}
+
+.grp-pagination .this-page,
+.pagination .this-page,
+.grp-pagination ul li span {
+    background: var(--accent-primary) !important;
+    background-image: none !important;
+    color: white !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+/* ========================================
+   FILTERS & SIDEBAR
+   ======================================== */
+
+#grp-filters,
+#changelist-filter,
+.grp-filter {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+#grp-filters h2,
+#grp-filters h3,
+#changelist-filter h2,
+#changelist-filter h3 {
+    background: var(--bg-tertiary) !important;
+    background-image: none !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+}
+
+#grp-filters li,
+#changelist-filter li {
+    border-color: var(--border-primary) !important;
+}
+
+#grp-filters a,
+#changelist-filter a {
+    color: var(--text-secondary) !important;
+}
+
+#grp-filters a:hover,
+#changelist-filter a:hover {
+    background: var(--bg-hover) !important;
+    color: var(--accent-primary) !important;
+}
+
+#grp-filters a.selected,
+#changelist-filter a.selected {
+    background: var(--accent-light) !important;
+    color: var(--accent-primary) !important;
+    font-weight: 500 !important;
+}
+
+/* ========================================
+   SEARCH
+   ======================================== */
+
+#grp-search-form,
+#changelist-search {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+#searchbar {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-secondary) !important;
+}
+
+#searchbar:focus {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 0 2px var(--accent-light) !important;
+}
+
+/* ========================================
+   CALENDAR & DATE WIDGETS
+   ======================================== */
+
+.calendarbox,
+.clockbox,
+.ui-datepicker,
+#ui-timepicker {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.calendar th,
+.calendarbox th,
+.ui-datepicker th {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-secondary) !important;
+}
+
+.calendar td,
+.calendarbox td,
+.ui-datepicker td {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+.calendar td:hover,
+.calendarbox td:hover,
+.ui-datepicker td:hover {
+    background: var(--bg-hover) !important;
+}
+
+.calendar td.selected,
+.calendarbox td.selected,
+.ui-datepicker td.ui-state-active a {
+    background: var(--accent-primary) !important;
+    color: white !important;
+}
+
+/* ========================================
+   INLINE FORMS
+   ======================================== */
+
+.grp-tabular,
+.tabular,
+.grp-stacked,
+.stacked {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.grp-tabular tbody tr,
+.tabular tbody tr {
+    background: var(--bg-secondary) !important;
+}
+
+.grp-tabular tbody tr:hover,
+.tabular tbody tr:hover {
+    background: var(--bg-hover) !important;
+}
+
+/* ========================================
+   OBJECT TOOLS
+   ======================================== */
+
+.grp-object-tools a,
+.object-tools a {
+    background: var(--accent-primary) !important;
+    background-image: none !important;
+    color: white !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-sm) !important;
+    opacity: 1 !important;
+}
+
+.grp-object-tools a:hover,
+.object-tools a:hover {
+    background: var(--accent-hover) !important;
+    transform: none !important;
+}
+
+/* ========================================
+   AUTOCOMPLETE
+   ======================================== */
+
+.ui-autocomplete,
+.ui-menu {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.ui-menu-item a,
+.ui-autocomplete .ui-menu-item a {
+    background: var(--bg-tertiary) !important;
+    background-image: none !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-secondary) !important;
+}
+
+.ui-menu-item a:hover,
+.ui-menu-item a.ui-state-hover,
+.ui-menu-item a.ui-state-focus {
+    background: var(--accent-primary) !important;
+    color: white !important;
+    border-color: var(--accent-primary) !important;
+}
+
+/* ========================================
+   SUBMIT ROW
+   ======================================== */
+
+.grp-submit-row,
+.submit-row {
+    background: var(--bg-secondary) !important;
+    background-image: none !important;
+    border-top: 1px solid var(--border-primary) !important;
+}
+
+.grp-fixed-footer {
+    background: var(--bg-secondary) !important;
+    background-image: none !important;
+    border-top: 1px solid var(--border-primary) !important;
+}
+
+/* ========================================
+   LOGIN PAGE
+   ======================================== */
+
+body.grp-login .grp-module-login {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+}
+
+body.grp-login .grp-module-login h1 {
+    background: var(--bg-tertiary) !important;
+    background-image: none !important;
+    border: 1px solid var(--border-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+body.grp-login .grp-module-login .grp-row {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+body.grp-login .grp-module-login label {
+    color: var(--text-secondary) !important;
+}
+
+/* ========================================
+   COLLAPSE/ACCORDION
+   ======================================== */
+
+.grp-collapse h2.grp-collapse-handler,
+.grp-collapse h3.grp-collapse-handler {
+    background: var(--bg-tertiary) !important;
+    background-image: none !important;
+    color: var(--text-primary) !important;
+    text-shadow: none !important;
+}
+
+.grp-collapse.grp-open > h2.grp-collapse-handler,
+.grp-collapse.grp-open > h3.grp-collapse-handler {
+    border-bottom: 1px solid var(--border-primary) !important;
+}
+
+/* ========================================
+   RELATED WIDGET WRAPPER
+   ======================================== */
+
+.grp-related-lookup,
+.related-lookup,
+button.ui-datepicker-trigger,
+button.ui-timepicker-trigger,
+a.fb_show,
+a.related-lookup {
+    background-color: var(--bg-tertiary) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='%239ca3af'%3E%3Cpath d='M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 11H7V7h2v4zm0-5H7V4h2v2z'/%3E%3C/svg%3E") !important;
+    border: 1px solid var(--border-secondary) !important;
+    color: var(--text-secondary) !important;
+}
+
+.grp-related-lookup:hover,
+.related-lookup:hover {
+    background-color: var(--bg-hover) !important;
+    border-color: var(--accent-primary) !important;
+}
+
+/* ========================================
+   AUTOCOMPLETE WRAPPERS
+   ======================================== */
+
+.grp-autocomplete-wrapper-m2m,
+.grp-autocomplete-wrapper-fk {
+    background: var(--bg-input) !important;
+    border-color: var(--border-secondary) !important;
+}
+
+.grp-autocomplete-wrapper-m2m.grp-state-focus,
+.grp-autocomplete-wrapper-fk.grp-state-focus {
+    border-color: var(--accent-primary) !important;
+    background: var(--bg-tertiary) !important;
+}
+
+/* ========================================
+   TOOLS & ACTIONS
+   ======================================== */
+
+.grp-tools a {
+    opacity: 0.7;
+}
+
+.grp-tools a:hover {
+    opacity: 1;
+}
+
+.grp-actions,
+.actions {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.grp-actions select,
+.actions select {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-secondary) !important;
+}
+
+/* ========================================
+   CHANGELIST ACTIONS
+   ======================================== */
+
+li.grp-changelist-actions {
+    background: transparent !important;
+}
+
+.grp-changelist-results {
+    background: var(--bg-primary) !important;
+}
+
+/* ========================================
+   SELECT2 OVERRIDES (if using)
+   ======================================== */
+
+.select2-container--admin-autocomplete .select2-selection--single,
+.select2-container--admin-autocomplete .select2-selection--multiple {
+    background: var(--bg-input) !important;
+    border-color: var(--border-secondary) !important;
+}
+
+.select2-container--admin-autocomplete.select2-container--focus .select2-selection {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 0 2px var(--accent-light) !important;
+}
+
+.select2-dropdown {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+.select2-results__option {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+.select2-results__option--highlighted {
+    background: var(--accent-primary) !important;
+    color: white !important;
+}
+
+/* ========================================
+   FOCUS STATES
+   ======================================== */
+
+*:focus {
+    outline: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+    box-shadow: 0 0 0 2px var(--accent-light) !important;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.grp-row {
+    border-color: var(--border-primary) !important;
+}
+
+.grp-predelete {
+    background: rgba(239, 68, 68, 0.1) !important;
+}
+
+.grp-predelete .grp-module,
+.grp-predelete .grp-th,
+.grp-predelete .grp-td {
+    background: rgba(239, 68, 68, 0.05) !important;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+    #grp-content {
+        padding: 80px 10px 20px !important;
+    }
+}

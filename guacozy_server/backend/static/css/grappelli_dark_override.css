@@ -1,0 +1,71 @@
+/* guacozy_server/backend/static/css/grappelli_dark_override.css */
+
+/* --- DARK MODE BASE PALETTE (Matching your React component) --- */
+:root {
+    --dark-bg: #1e1e1e;
+    --dark-card: #2d2d2d;
+    --dark-text: #f0f0f0;
+    --dark-primary: #00bcd4; /* Cyan */
+    --dark-border: #3a3a3a;
+}
+
+/* 1. Body and General Background */
+body, 
+.grp-content, 
+.grp-group .grp-row, 
+.grp-group .grp-module,
+.grp-module h2 {
+    background-color: var(--dark-bg) !important;
+    color: var(--dark-text);
+}
+
+/* 2. Header / Navigation */
+.grp-header {
+    background: var(--dark-card) !important;
+    border-bottom: 1px solid var(--dark-border);
+}
+.grp-header a, .grp-header h1 {
+    color: var(--dark-text) !important;
+}
+
+/* 3. Main Modules and Cards */
+.grp-module, 
+.grp-table, 
+.grp-related-widget-wrapper li {
+    background-color: var(--dark-card) !important;
+    border: 1px solid var(--dark-border) !important;
+    color: var(--dark-text);
+}
+.grp-module h2, .grp-module h3 {
+    background-color: #3b3b3b; /* Slightly darker than card */
+    border-bottom: 1px solid var(--dark-border);
+    color: var(--dark-primary); /* Cyan for section titles */
+}
+.grp-row:nth-child(even) { /* Stripe effect on list/tabular rows */
+    background-color: #242424; 
+}
+.grp-row:hover {
+    background-color: #333 !important;
+}
+
+/* 4. Form Fields & Inputs */
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="number"], 
+textarea, 
+select {
+    background-color: #333 !important;
+    color: var(--dark-text) !important;
+    border: 1px solid var(--dark-border) !important;
+}
+
+/* 5. Buttons and Links */
+a {
+    color: var(--dark-primary);
+}
+/* Primary Save/Add button (Example) */
+.grp-submit-row input[type="submit"].grp-default {
+    background-color: var(--dark-primary) !important;
+    color: var(--dark-bg) !important;
+}

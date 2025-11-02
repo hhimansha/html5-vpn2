@@ -1,17 +1,17 @@
 import logging
 import os
-
+from pathlib import Path
 import environ
 from django.conf.locale.en import formats as en_formats
 from django.core.exceptions import ImproperlyConfigured
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz')
-
+# Add this line to fix migration warnings
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
@@ -23,7 +23,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Name in grapelli-admin
 GRAPPELLI_ADMIN_TITLE = "Guacozy Administration"
+GRAPPELLI_SWITCH_USER = True
 
+# SKIN SELECTION - CHOOSE ONE:
+GRAPPELLI_SKIN = 'modern'    # Modern Grappelli
 # Database
 
 DATABASES = {
@@ -82,6 +85,7 @@ INSTALLED_APPS += [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -116,11 +120,13 @@ else:
     SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 ROOT_URLCONF = 'guacozy_server.urls'
+frontend_build_path = os.path.join(BASE_DIR, 'frontend_build')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+            frontend_build_path,]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -168,15 +174,16 @@ en_formats.DATETIME_FORMAT = "Y-m-d H:i:s"
 
 # Static files
 # How static files will be served
-STATIC_URL = '/staticfiles/'  # How static files will be served
-
-# Where static files will be placed after collectstatic
-STATIC_ROOT = 'staticfiles/'
-
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Additional static folder
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "frontend_build", "static"),  # React static files
+    os.path.join(BASE_DIR, "frontend_build"),  # For manifest.json, index.html
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # This is needed for django-rules to work
 AUTHENTICATION_BACKENDS = [
@@ -197,6 +204,14 @@ REST_FRAMEWORK = {
     ]
 }
 
+for static_dir in STATICFILES_DIRS:
+    if not os.path.exists(static_dir):
+        os.makedirs(static_dir, exist_ok=True)
+
+if DEBUG:
+    STATICFILES_DIRS.append(os.path.join(BASE_DIR, "frontend_build"))
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Specify ASGI routing (needed for channels)
 ASGI_APPLICATION = "guacozy_server.routing.application"
 

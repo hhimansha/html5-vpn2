@@ -5,18 +5,25 @@ services:
     build:
       context: ./guacozy_server/
     restart: always
-    depends_on:
-      - db
     volumes:
       - ./guacozy_server:/app
+      - ./frontend/build:/app/frontend_build
+      - static_volume:/app/staticfiles
     environment:
       - DJANGO_SECRET_KEY=youshoulddefinetelychangethistosomethingelseandtakecare
       - FIELD_ENCRYPTION_KEY=qjq4ObsXMqiqQyfKgD-jjEGm4ep8RaHKGRg4ohGCi1A=
       - DJANGO_TIME_ZONE=Europe/Vilnius
-      - DJANGO_DB_URL=postgres://postgres@db:5432/postgres
       - DJANGO_ALLOWED_HOSTS=*
+      - DEBUG=True 
     ports:
       - 8000:8000
+    command: >
+        sh -c "python manage.py migrate &&
+         python manage.py initguacd &&
+         python manage.py initgroups &&
+         python manage.py collectstatic --noinput &&
+         daphne -b 0.0.0.0 -p 8000 guacozy_server.asgi:application"
+    
   react:
     build:
       context: ./frontend/
@@ -28,13 +35,18 @@ services:
       - DJANGO_PROXY_HOST=django
       - DJANGO_PROXY_PORT=8000
   guacd:
-    image: guacamole/guacd
+    image: guacamole/guacd:1.5.0
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     restart: always
-  db:
-    image: postgres:10.4-alpine
-    restart: always
-    volumes:
-    - dev-postgres-data:/var/lib/postgresql/data
+    environment:
+      - GUACD_LOG_LEVEL=debug
+  # db:
+  #   image: postgres:10.4-alpine
+  #   restart: always
+  #   volumes:
+  #   - dev-postgres-data:/var/lib/postgresql/data
 
 volumes:
-  dev-postgres-data:
+  static_volume:  # Define the volume

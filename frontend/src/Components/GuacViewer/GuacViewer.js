@@ -121,8 +121,8 @@ function GuacViewer({wspath, tabIndex, controlSize = true, controlInput = true, 
     const parentOnClickHandler = () => {
         displayRef.current.focus();
 
-        // nodeSelectCallback - make the node hosting this component active if this component is clicked
-        if (nodeSelectCallback) {
+        // Add null check for node and its attributes
+        if (nodeSelectCallback && node && node._attributes) {
             nodeSelectCallback(node._attributes.id);
         }
     };
@@ -174,8 +174,24 @@ function GuacViewer({wspath, tabIndex, controlSize = true, controlInput = true, 
 
         displayRef.current.appendChild(guacRef.current.getDisplay().getElement());
 
-        // Error handler
+        console.log('=== GUACAMOLE CONNECTION DEBUG ===');
+        console.log('WebSocket URL:', webSocketFullUrl);
+        console.log('Connection params:', getConnectionString());
+        console.log('Full URL with params:', webSocketFullUrl + '?' + getConnectionString());
+        console.log('Guacamole client created:', guacRef.current);
+        console.log('Is Client?', guacRef.current instanceof Guacamole.Client);
+
+        // // ADD TUNNEL DEBUG HANDLERS HERE:
+        // guacRef.current.getTunnel().onerror = function(status) {
+        //     console.error('Tunnel error:', status);
+        // };
+
+        // guacRef.current.getTunnel().onstatechange = function(state) {
+        //     console.log('Tunnel state changed:', state);
+        // };
+            // Error handler
         guacRef.current.onerror = function (error) {
+             console.error('Guacamole client error:', error);
             let msg = error.message;
 
             if (GUACAMOLE_STATUS[error.code]) {
@@ -191,6 +207,7 @@ function GuacViewer({wspath, tabIndex, controlSize = true, controlInput = true, 
 
         // Update state, component knows when to render faders, "Loading..." and so on
         guacRef.current.onstatechange = (newState) => {
+            console.log('Client state changed:', newState);
             setClientState(newState);
         };
 
@@ -239,11 +256,26 @@ function GuacViewer({wspath, tabIndex, controlSize = true, controlInput = true, 
 
     // This effect creates Guacamole.Keyboard / Guacamole.Mouse on current display element and binds callbacks
     // to current guacamole client
+    // This effect creates Guacamole.Keyboard / Guacamole.Mouse on current display element and binds callbacks
+    // to current guacamole client
     useEffect(() => {
+        console.log('=== KEYBOARD BINDING EFFECT ===');
+        console.log('controlInput:', controlInput);
+        console.log('displayRef.current:', displayRef.current);
+        console.log('guacRef.current:', guacRef.current);
+        
         // don't bind to events if we know this input will not be accepted at server side
         if (!controlInput) {
+            console.log('SKIPPING keyboard binding - controlInput is false');
             return;
         }
+
+        if (!displayRef.current || !guacRef.current) {
+            console.log('SKIPPING keyboard binding - refs not ready');
+            return;
+        }
+
+        console.log('BINDING keyboard and mouse...');
 
         // Keyboard
         let keyboard = new Guacamole.Keyboard(displayRef.current);
@@ -253,21 +285,21 @@ function GuacViewer({wspath, tabIndex, controlSize = true, controlInput = true, 
             // 65507 - Left Ctrl
             // somehow Right Ctrl is not sent, so send Left Ctrl instead
             if (keysym === 65508) return 65507;
-
             return keysym
         };
 
         keyboard.onkeydown = function (keysym) {
+            console.log('Key down:', keysym);
             guacRef.current.sendKeyEvent(1, fixKeys(keysym));
         };
 
         keyboard.onkeyup = function (keysym) {
+            console.log('Key up:', keysym);
             guacRef.current.sendKeyEvent(0, fixKeys(keysym));
         };
 
         // Mouse
         let mouse = new Guacamole.Mouse(displayRef.current);
-
 
         mouse.onmousemove = function (mouseState) {
             mouseState.x = mouseState.x / scale.current;
@@ -276,9 +308,11 @@ function GuacViewer({wspath, tabIndex, controlSize = true, controlInput = true, 
         };
 
         mouse.onmousedown = mouse.onmouseup = function (mouseState) {
+            console.log('Mouse event');
             guacRef.current.sendMouseState(mouseState);
         };
 
+        console.log('Keyboard and mouse bound successfully');
 
     }, [controlInput]);
 
@@ -321,16 +355,18 @@ function GuacViewer({wspath, tabIndex, controlSize = true, controlInput = true, 
 
         // Read client's clipboard
         const onFocusHandler = () => {
-            // when focused, read client clipboard text
+            if (!navigator.clipboard) return;
+            
             navigator.clipboard.readText().then(
                 (clientClipboard) => {
                     let stream = guacRef.current.createClipboardStream("text/plain", "clipboard");
                     setTimeout(() => {
-                        // remove '\r', because on pasting it becomes two new lines (\r\n -> \n\n)
                         stream.sendBlob(btoa(unescape(encodeURIComponent(clientClipboard.replace(/[\r]+/gm, "")))));
                     }, 200)
                 }
-            )
+            ).catch(err => {
+                console.error('Failed to read clipboard contents: ', err);
+            });
         };
 
         // add handler only when navigator clipboard is available

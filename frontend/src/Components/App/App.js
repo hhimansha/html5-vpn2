@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import {Dimmer, Loader} from "semantic-ui-react";
-import FlexLayout from "flexlayout-react";
+import * as FlexLayout from "flexlayout-react";
 
 import {AppContext} from "../../Context/AppContext";
 import {LayoutContext} from "../../Layout/LayoutContext";
