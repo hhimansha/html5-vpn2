@@ -1,16 +1,16 @@
-# Use official Python 3.11 slim image
+# Base image
 FROM python:3.11-slim
 
-# Set working directory inside container
+# Set working directory
 WORKDIR /app
 
 # Environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 ENV PIP_DEFAULT_TIMEOUT=100
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Install system dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
@@ -20,19 +20,21 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install
+# Copy requirements
 COPY requirements*.txt /app/
-RUN pip install --upgrade pip
-RUN pip install -r requirements-ldap.txt
 
-# Copy Django project
+# Install Python dependencies
+RUN pip install --upgrade pip --timeout 100 && \
+    pip install -r requirements-base.txt --timeout 100 --retries 3
+
+# Copy the Django app
 COPY . /app/
 
-# Create static files directory
+# Create staticfiles folder
 RUN mkdir -p /app/staticfiles
 
-# Expose port 8000
+# Expose port
 EXPOSE 8000
 
-# Run migrations, collect static, then start Daphne
+# Run Django migrations, collectstatic, and start Daphne
 CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p 8000 guacozy_server.asgi:application"]
