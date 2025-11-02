@@ -1,0 +1,38 @@
+# Use official Python 3.11 slim image
+FROM python:3.11-slim
+
+# Set working directory inside container
+WORKDIR /app
+
+# Environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV PIP_DEFAULT_TIMEOUT=100
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    libsasl2-dev \
+    libldap2-dev \
+    libssl-dev \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install
+COPY requirements*.txt /app/
+RUN pip install --upgrade pip
+RUN pip install -r requirements-ldap.txt
+
+# Copy Django project
+COPY . /app/
+
+# Create static files directory
+RUN mkdir -p /app/staticfiles
+
+# Expose port 8000
+EXPOSE 8000
+
+# Run migrations, collect static, then start Daphne
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p 8000 guacozy_server.asgi:application"]
